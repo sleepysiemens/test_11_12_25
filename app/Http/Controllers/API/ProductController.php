@@ -22,6 +22,7 @@ class ProductController extends Controller
             'category_id' => ['int', 'nullable'],
             'in_stock'    => ['boolean', 'nullable'],
             'rating_from' => ['numeric', 'nullable', 'min:0'],
+            'sort'        => ['string', 'nullable']
         ];
 
         try {

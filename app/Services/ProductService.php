@@ -18,6 +18,7 @@ class ProductService
         $categoryId = $filters['category_id'] ?? null;
         $inStock = Arr::has($filters, 'in_stock') ? $filters['in_stock'] : 'not set';
         $ratingFrom = $filters['rating_from'] ?? null;
+        $sort = $filters['sort'] ?? null;
 
         return Product::query()
             ->select([
@@ -58,6 +59,27 @@ class ProductService
             #rating_from
             ->when($ratingFrom, function (Builder $q) use ($ratingFrom) {
                 $q->where('rating', '>=', $ratingFrom);
+            })
+            # sort
+            ->when($sort, function (Builder $q) use ($sort) {
+                switch ($sort) {
+                    case 'price_asc':
+                        $q->orderBy('price', 'ASC');
+
+                        break;
+                    case 'price_desc':
+                        $q->orderBy('price', 'DESC');
+
+                        break;
+                    case 'rating_desc':
+                        $q->orderBy('rating', 'DESC');
+
+                        break;
+                    default:
+                        $q->orderBy('created_at', 'DESC');
+
+                        break;
+                }
             })
             ->paginate(self::ON_PAGE_COUNT)
             ->toArray();
