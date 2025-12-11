@@ -21,7 +21,7 @@ class ProductController extends Controller
             'price_to'    => ['numeric', 'min:0', 'nullable'],
             'category_id' => ['int', 'nullable'],
             'in_stock'    => ['boolean', 'nullable'],
-            'rating_from' => ['float', 'nullable', 'min:0'],
+            'rating_from' => ['numeric', 'nullable', 'min:0'],
         ];
 
         try {
