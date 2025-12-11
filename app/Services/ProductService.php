@@ -17,6 +17,7 @@ class ProductService
         $priceTo = $filters['price_to'] ?? null;
         $categoryId = $filters['category_id'] ?? null;
         $inStock = Arr::has($filters, 'in_stock') ? $filters['in_stock'] : 'not set';
+        $ratingFrom = $filters['rating_from'] ?? null;
 
         return Product::query()
             ->select([
@@ -53,6 +54,10 @@ class ProductService
             #in_stock
             ->when($inStock !== 'not set', function (Builder $q) use ($inStock) {
                 $q->where('in_stock', $inStock);
+            })
+            #rating_from
+            ->when($ratingFrom, function (Builder $q) use ($ratingFrom) {
+                $q->where('rating', '>=', $ratingFrom);
             })
             ->paginate(self::ON_PAGE_COUNT)
             ->toArray();
