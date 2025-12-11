@@ -44,7 +44,7 @@ class ProductService
                 $q->where('price', '>=', $priceFrom);
             })
             # price_to
-            ->when($priceFrom, function (Builder $q) use ($priceTo) {
+            ->when($priceTo, function (Builder $q) use ($priceTo) {
                 $q->where('price', '<=', $priceTo);
             })
             #category_id
